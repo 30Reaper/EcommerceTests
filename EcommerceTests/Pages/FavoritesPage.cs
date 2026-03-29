@@ -16,16 +16,23 @@ namespace EcommerceTests.Pages
 
         public int GetFavoritesCount()
         {
-            LoggerHelper.Info("Retrieving favorites count");
+            LoggerHelper.Info("Getting favorites count");
 
             var container = WaitHelper.WaitForElementVisible(driver, productsContainer);
+
+            var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            wait.Until(_ =>
+            {
+                var count = container.FindElements(productCards).Count;
+                return count > 0;
+            });
+
             var products = container.FindElements(productCards);
 
-            var count = products.Count;
+            LoggerHelper.Info($"Favorites count: {products.Count}");
 
-            LoggerHelper.Info($"Favorites count: {count}");
-
-            return count;
+            return products.Count;
         }
     }
 }

@@ -44,11 +44,19 @@ namespace EcommerceTests.Pages
         {
             LoggerHelper.Info("Opening user menu");
 
-            WaitHelper.WaitForElementVisible(driver, userMenu).Click();
+            var menu = WaitHelper.WaitForElementVisible(driver, userMenu);
+            menu.Click();
 
-            LoggerHelper.Info("Navigating to Favorites");
+            LoggerHelper.Info("Clicking Favorites");
 
-            WaitHelper.WaitForElementVisible(driver, favoritesButton).Click();
+            var favorites = WaitHelper.WaitForElementVisible(driver, favoritesButton);
+            favorites.Click();
+
+            var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            wait.Until(d => d.Url.Contains("favorites"));
+
+            LoggerHelper.Info("Navigated to Favorites page");
         }
 
         // Assertions 
