@@ -1,10 +1,20 @@
 {
-  "validUser": {
-    "email": "test@qabrains.com",
-    "password": "test123"
-  },
-  "invalidUser": {
-    "email": "wrong@test.com",
-    "password": "wrong123"
+  "ValidUsers": [
+    {
+      "Email": "test@qabrains.com",
+      "Password": "Password123"
+    },
+    {
+      "Email": "practice@qabrains.com",
+      "Password": "Password123"
+    },
+    {
+      "Email": "student@qabrains.com",
+      "Password": "Password123"
+    }
+  ],
+  "InvalidUser": {
+    "Email": "wrong@email.com",
+    "Password": "wrongpassword"
   }
 }

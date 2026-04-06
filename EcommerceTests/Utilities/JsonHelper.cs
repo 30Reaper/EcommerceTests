@@ -4,10 +4,10 @@ namespace EcommerceTests.Utilities
 {
     public static class JsonHelper
     {
-        public static T ReadJson<T>(string path)
+        public static T ReadJsonFile<T>(string fileName)
         {
-            var json = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<T>(json);
+            var json = File.ReadAllText(fileName);
+            return JsonSerializer.Deserialize<T>(json) ?? throw new InvalidOperationException($"Unable to deserialize JSON from {fileName}");
         }
     }
 }

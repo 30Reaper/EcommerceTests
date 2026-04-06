@@ -1,36 +1,31 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
 
 namespace EcommerceTests.Core.Driver
 {
     public static class DriverFactory
     {
-        private static readonly ThreadLocal<IWebDriver?> driver = new();
-
         public static IWebDriver GetDriver(string browser = "chrome")
         {
-            if (driver.Value == null)
+            IWebDriver driver = browser.ToLower() switch
             {
-                driver.Value = browser.ToLower() switch
-                {
-                    "edge" => new EdgeDriver(),
-                    _ => new ChromeDriver()
-                };
+                "firefox" => CreateFirefoxDriver(),
+                _ => CreateChromeDriver()
+            };
 
-                driver.Value.Manage().Window.Maximize();
-            }
-
-            return driver.Value!;
+            driver.Manage().Window.Maximize();
+            return driver;
         }
 
-        public static void QuitDriver()
+        private static IWebDriver CreateChromeDriver()
         {
-            if (driver.Value != null)
-            {
-                driver.Value.Quit();
-                driver.Value = null;
-            }
+            return new ChromeDriver();
+        }
+
+        private static IWebDriver CreateFirefoxDriver()
+        {
+            return new FirefoxDriver();
         }
     }
 }

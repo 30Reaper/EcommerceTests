@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EcommerceTests.Core.Config
+﻿namespace EcommerceTests.Core.Config
 {
-    internal class TestSettings
+    public static class TestSettings
     {
+        public static string BaseUrl => Environment.GetEnvironmentVariable("TEST_URL") ?? "https://practice.qabrains.com/ecommerce";
+        public static string Browser => Environment.GetEnvironmentVariable("TEST_BROWSER") ?? "chrome";
     }
 }

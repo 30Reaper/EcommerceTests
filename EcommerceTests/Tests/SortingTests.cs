@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using FluentAssertions;
 using EcommerceTests.Core;
+using EcommerceTests.Models;
 using EcommerceTests.Pages;
 using EcommerceTests.Utilities;
 
@@ -8,8 +9,9 @@ namespace EcommerceTests.Tests
 {
     public class SortingTests : BaseTest
     {
-        [Fact]
-        public void Products_ShouldBeSortedByPrice_LowToHigh()
+        [Theory]
+        [MemberData(nameof(TestDataProvider.ValidUsers), MemberType = typeof(TestDataProvider))]
+        public void Products_ShouldBeSortedByPrice_LowToHigh(UserModel validUser)
         {
             LoggerHelper.Info("Starting sorting test");
 
@@ -18,8 +20,7 @@ namespace EcommerceTests.Tests
             var productsPage = new ProductsPage(driver);
 
             // Act
-            loginPage.Login("test@qabrains.com", "Password123");
-
+            loginPage.Login(validUser.Email, validUser.Password);
             productsPage.SortByLowToHigh();
 
             var prices = productsPage.GetProductPrices();
@@ -28,9 +29,7 @@ namespace EcommerceTests.Tests
 
             // Assert
             loginPage.IsUserLoggedIn().Should().BeTrue("user should be logged in");
-
             prices.Should().NotBeEmpty("product list should not be empty");
-
             prices.Should().BeInAscendingOrder("products should be sorted from low to high");
 
             LoggerHelper.Info("Sorting test passed");

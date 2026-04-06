@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using EcommerceTests.Core.Config;
 using EcommerceTests.Core.Driver;
 
 namespace EcommerceTests.Core
@@ -10,8 +11,8 @@ namespace EcommerceTests.Core
 
         public BaseTest()
         {
-            driver = DriverFactory.GetDriver("chrome");
-            driver.Navigate().GoToUrl("https://practice.qabrains.com/ecommerce");
+            driver = DriverFactory.GetDriver(TestSettings.Browser);
+            driver.Navigate().GoToUrl(TestSettings.BaseUrl);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -20,7 +21,7 @@ namespace EcommerceTests.Core
             {
                 if (disposing)
                 {
-                    DriverFactory.QuitDriver();
+                    driver.Quit();
                 }
 
                 disposed = true;

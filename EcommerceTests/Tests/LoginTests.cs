@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using FluentAssertions;
 using EcommerceTests.Core;
+using EcommerceTests.Models;
 using EcommerceTests.Pages;
 using EcommerceTests.Utilities;
 
@@ -8,8 +9,9 @@ namespace EcommerceTests.Tests
 {
     public class LoginTests : BaseTest
     {
-        [Fact]
-        public void Login_WithInvalidCredentials_ShouldShowErrors()
+        [Theory]
+        [MemberData(nameof(TestDataProvider.InvalidUsers), MemberType = typeof(TestDataProvider))]
+        public void Login_WithInvalidCredentials_ShouldShowErrors(UserModel invalidUser, string expectedEmailError, string expectedPasswordError)
         {
             LoggerHelper.Info("Starting invalid login test");
 
@@ -17,7 +19,7 @@ namespace EcommerceTests.Tests
             var loginPage = new LoginPage(driver);
 
             // Act
-            loginPage.Login("wrong@email.com", "wrongpassword");
+            loginPage.Login(invalidUser.Email, invalidUser.Password);
 
             LoggerHelper.Info("Login attempt completed");
 
@@ -25,8 +27,8 @@ namespace EcommerceTests.Tests
             var passwordError = loginPage.GetPasswordError();
 
             // Assert
-            emailError.Should().Be("Username is incorrect.", "invalid email should trigger error message");
-            passwordError.Should().Be("Password is incorrect.", "invalid password should trigger error message");
+            emailError.Should().Be(expectedEmailError);
+            passwordError.Should().Be(expectedPasswordError);
 
             LoggerHelper.Info("Invalid login assertions passed");
         }
